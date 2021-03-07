@@ -80,14 +80,14 @@ class GBParse:
             } for element in resp.json()]
             for element in resp.json():
                 try:
-                    if element["children"]:
+                    for children in element["comment"]["children"]:
                         comments.append({
                             "post_id": soup.find("comments").attrs.get("commentable-id"),
-                            "author_name": element["children"]["comment"]["user"]["full_name"],
-                            "author_url": element["children"]["comment"]["user"]["url"],
-                            "text": element["children"]["comment"]["body"],
-                            "id": element["children"]["comment"]["id"],
-                            "parent_id": element["children"]["comment"]["parent_id"]
+                            "author_name": children["comment"]["user"]["full_name"],
+                            "author_url": children["comment"]["user"]["url"],
+                            "text": children["comment"]["body"],
+                            "id": children["comment"]["id"],
+                            "parent_id": children["comment"]["parent_id"]
                         })
                 except KeyError:
                     continue
@@ -115,6 +115,6 @@ class GBParse:
 
 if __name__ == "__main__":
     url = "https://geekbrains.ru/posts"
-    db_url = "sqlite:///gbparse"
+    db_url = "sqlite:///gbparses"
     parser = GBParse(url, db_url)
     parser.run()
