@@ -71,6 +71,7 @@ class GBParse:
         resp = requests.get(url="https://geekbrains.ru/api/v2/comments?", params=params)
         if resp.json():
             comments = [{
+                "post_id": soup.find("comments").attrs.get("commentable-id"),
                 "author_name": element["comment"]["user"]["full_name"],
                 "author_url": element["comment"]["user"]["url"],
                 "text": element["comment"]["body"],
@@ -81,6 +82,7 @@ class GBParse:
                 try:
                     if element["children"]:
                         comments.append({
+                            "post_id": soup.find("comments").attrs.get("commentable-id"),
                             "author_name": element["children"]["comment"]["user"]["full_name"],
                             "author_url": element["children"]["comment"]["user"]["url"],
                             "text": element["children"]["comment"]["body"],
