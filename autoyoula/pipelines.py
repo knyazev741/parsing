@@ -5,9 +5,10 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+import pymongo
 
 
 class AutoyoulaPipeline:
     def process_item(self, item, spider):
-        return item
+        db_client = pymongo.MongoClient("mongodb://localhost:27017")
+        db_client["auto2"][spider.name].insert_one(item)
